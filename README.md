@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📝 ToDo App (Next.js + TypeScript)
+Минималистичное приложение для управления задачами, реализованное на Next.js с использованием feature-sliced architecture. Включает поддержку тем, создание, редактирование, удаление и переключение статуса задач.
 
-## Getting Started
+🚀 Стек технологий
+Next.js (App Router)
 
-First, run the development server:
+React 18
 
-```bash
-npm run dev
-# or
+TypeScript
+
+SCSS-модули
+
+Feature-Sliced Design (FSD)
+
+useLocalStorage для хранения задач
+
+📁 Архитектура проекта
+Проект следует принципам Feature-Sliced Design:
+
+bash
+Копировать
+Редактировать
+src/
+├── app/ # Next.js App Router
+├── pages/ # Обертки над страницами (переходный слой)
+├── features/ # Фичи — логика пользовательских действий
+├── entities/ # Сущности — атомарные элементы бизнес-домена
+├── widgets/ # Виджеты — комбинации фич/сущностей
+├── shared/ # Переиспользуемые части (хуки, UI, утилиты)
+├── styles/ # SCSS-переменные и темы
+🧱 Детали модулей
+📂 app/
+Используется App Router (layout.tsx, page.tsx) с глобальными стилями и провайдерами (providers.tsx), а также маршрутом tasks.
+
+📂 features/
+taskForm — логика формы задачи:
+
+ui/taskForm.tsx — форма создания/редактирования.
+
+model/useAddTask.ts / useEditTask.ts — хуки добавления/редактирования.
+
+lib/ — вспомогательные утилиты (findTaskById, types, constants).
+
+toggleTask — переключение статуса выполнения задачи:
+
+model/useToggleTask.ts — хук переключения.
+
+deleteTask — удаление задачи:
+
+model/useDeleteTask.ts — хук удаления.
+
+themeToggle — смена темы:
+
+lib/constants.ts — дефолтная тема.
+
+📂 entities/
+taskItem — базовая карточка задачи:
+
+ui/taskItem.tsx — отрисовка элемента.
+
+lib/ — типы и константы задачи.
+
+📂 widgets/
+tasksList — список задач:
+
+ui/tasksList.tsx — отрисовка списка задач.
+
+lib/types.ts — типы задач.
+
+📂 shared/
+hooks/useLocalStorage.ts — хук работы с localStorage.
+
+ui/ — (папка пока пуста, может использоваться для общих UI компонентов).
+
+📂 styles/
+theme.scss — стилизация темы.
+
+globals.scss — глобальные стили.
+
+\_variables.scss — SCSS-переменные.
+
+📦 Установка и запуск
+bash
+Копировать
+Редактировать
+git clone https://github.com/your-repo/todo-apk-next.git
+cd todo-apk-next
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🌗 Поддержка тем
+Темы переключаются через useLocalStorage и сохраняются между сессиями. Стиль темы определяется в theme.scss.

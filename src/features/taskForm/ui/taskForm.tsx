@@ -1,24 +1,9 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { TextField, Button, Box, Stack } from "@mui/material";
-
-interface FormData {
-  title: string;
-  description: string | null;
-}
-
-const schema = yup.object({
-  title: yup.string().required("Заголовок обязателен").min(3, "Мин. 3 символа"),
-  description: yup.string().nullable().defined(),
-});
-
-interface TaskFormProps {
-  onSubmit: (data: FormData) => void;
-  initialValues?: { title: string; description: string | null } | null;
-  onCancel?: () => void;
-}
+import { defaultValues, schema } from "../lib/constants";
+import { FormData, TaskFormProps } from "../lib/types";
 
 export function TaskForm({ onSubmit, initialValues, onCancel }: TaskFormProps) {
   const {
@@ -28,28 +13,24 @@ export function TaskForm({ onSubmit, initialValues, onCancel }: TaskFormProps) {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
-    defaultValues: initialValues
-      ? {
-          title: initialValues.title,
-          description: initialValues.description ?? null,
-        }
-      : { title: "", description: null },
+    defaultValues: initialValues || defaultValues,
   });
 
   const handleFormSubmit = (data: FormData) => {
-    onSubmit(data);
-    reset();
+    if (initialValues) {
+      onSubmit(data);
+    } else {
+      onSubmit(data);
+      reset(defaultValues);
+    }
   };
 
   const handleCancel = () => {
-    reset({
-      title: "",
-      description: null,
-    });
+    reset(defaultValues);
     onCancel?.();
   };
 
-  const onError = (errors: any) => {
+  const onError = (errors: FieldErrors<FormData>) => {
     console.error("Ошибки формы:", errors);
   };
 
