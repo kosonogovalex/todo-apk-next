@@ -3,7 +3,7 @@ import { TaskForm } from "@/features/taskForm/ui/taskForm";
 import { Task } from "@/widgets/tasksList/lib/types";
 import { TasksList } from "@/widgets/tasksList/ui/tasksList";
 import { Box, Modal, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useToggleTask } from "@/features/toggleTask/model/useToggleTask";
 import { useDeleteTask } from "@/features/deleteTask/model/useDeleteTask";
 import { useAddTask } from "@/features/taskForm/model/useAddTask";
@@ -20,7 +20,7 @@ const modalStyle = {
   padding: 4,
 };
 
-export const TasksPage: FC = () => {
+export default function TasksPage() {
   const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -98,4 +98,4 @@ export const TasksPage: FC = () => {
       </div>
     </div>
   );
-};
+}
